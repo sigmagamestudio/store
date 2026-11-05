@@ -2,35 +2,62 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apps — GitHub Releases</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131314" media="(prefers-color-scheme: dark)">
+<title>Apps — каталог приложений</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #fafafa;
+  color-scheme: light dark;
+  --top: 64px;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f4f4f4;
-  --border: #ececec;
-  --border-2: #e0e0e0;
-  --border-3: #c9c9c9;
-  --text: #0a0a0a;
-  --text-2: #525252;
-  --text-3: #8f8f8f;
-  --text-4: #b5b5b5;
-  --accent: #0a0a0a;
-  --accent-hover: #262626;
-  --radius-s: 6px;
-  --radius-m: 10px;
-  --radius-l: 14px;
-  --font: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --surface-2: #f1f3f4;
+  --surface-3: #e3e6e8;
+  --border: #dadce0;
+  --text: #1f1f1f;
+  --text-2: #5f6368;
+  --text-3: #6b7075;
+  --primary: #01875f;
+  --primary-hover: #016e4e;
+  --on-primary: #ffffff;
+  --tint: #e3f3ed;
+  --overlay: rgba(32, 33, 36, 0.5);
+  --font: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "Roboto Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131314;
+    --surface: #1c1d1f;
+    --surface-2: #2a2b2e;
+    --surface-3: #38393c;
+    --border: #3c4043;
+    --text: #e8eaed;
+    --text-2: #bdc1c6;
+    --text-3: #9aa0a6;
+    --primary: #4cc9a0;
+    --primary-hover: #6ad8b4;
+    --on-primary: #00382a;
+    --tint: #1d3a31;
+    --overlay: rgba(0, 0, 0, 0.62);
+  }
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 [hidden] { display: none !important; }
-html { -webkit-text-size-adjust: 100%; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 140px;
+  scrollbar-gutter: stable;
+}
 
 body {
   font-family: var(--font);
@@ -39,955 +66,798 @@ body {
   font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: "ss01", "cv01", "tnum";
   font-variant-numeric: tabular-nums;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
 }
 
-button { font-family: inherit; }
+a, button, select, input { touch-action: manipulation; }
+button, select, input { font-family: inherit; }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .wrap {
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
   width: 100%;
 }
 
-/* ═══════════════════════════════════════
-   TOPBAR
-   ═══════════════════════════════════════ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 400;
+  padding: 10px 16px;
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: 8px;
+  font-weight: 500;
+  transform: translateY(-200%);
+}
+.skip:focus { transform: none; }
+
+/* ─── Topbar ─── */
 
 .topbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(250, 250, 250, 0.86);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
 
 .topbar-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 20px;
-  height: 60px;
+  gap: 24px;
+  height: var(--top);
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  flex-shrink: 0;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border-radius: 8px;
 }
 
-.brand-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  background: var(--accent);
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #01a875, #01875f 55%, #0b6b4f);
   display: grid;
   place-items: center;
   color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
+  flex: none;
 }
 
-.brand-name { font-weight: 600; }
-
-.search-wrap {
-  flex: 1;
-  max-width: 360px;
+.search {
   position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.search-wrap svg {
+.search svg {
   position: absolute;
-  left: 12px;
+  left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-3);
+  color: var(--text-2);
   pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  height: 34px;
-  padding: 0 12px 0 34px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-s);
-  font-family: inherit;
-  font-size: 13px;
+  height: 44px;
+  padding: 0 16px 0 46px;
+  background-color: var(--surface-2);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 15px;
   color: var(--text);
   outline: none;
-  transition: border-color 0.15s, background 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
-.search-input:focus {
-  border-color: var(--text);
-  background: #fff;
+.search-input:hover { background-color: var(--surface-3); }
+
+.search-input:focus-visible {
+  background-color: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--tint);
 }
 
 .search-input::placeholder { color: var(--text-3); }
 
-.topbar-nav {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-left: auto;
-  flex-shrink: 0;
-}
-
 .topbar-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 12px;
-  border-radius: var(--radius-s);
-  font-size: 13px;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-2);
-  transition: color 0.15s, background 0.15s;
+  transition: background-color 0.15s, color 0.15s;
 }
 
-.topbar-link:hover { color: var(--text); background: var(--surface-2); }
+.topbar-link:hover { background-color: var(--surface-2); color: var(--text); }
 
-/* ═══════════════════════════════════════
-   MAIN
-   ═══════════════════════════════════════ */
+/* ─── Category bar ─── */
 
-.main {
-  flex: 1;
-  padding: 56px 0 80px;
+.filterbar {
+  position: sticky;
+  top: var(--top);
+  z-index: 90;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
 }
 
-/* ─── Hero ─── */
-
-.hero {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 48px;
-  align-items: end;
-  margin-bottom: 56px;
-}
-
-.hero-title {
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  margin-bottom: 12px;
-}
-
-.hero-sub {
-  font-size: 15px;
-  color: var(--text-2);
-  max-width: 460px;
-  line-height: 1.55;
-}
-
-.hero-stats {
+.tabs {
   display: flex;
-  gap: 32px;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px;
+  margin: -2px;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  background-color: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.tab:hover { background-color: var(--surface-2); }
+
+.tab[aria-pressed="true"] {
+  background-color: var(--tint);
+  border-color: transparent;
+  color: var(--primary);
+  font-weight: 500;
 }
 
-.stat-v {
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.025em;
-}
+.tab-count { font-size: 12px; color: var(--text-3); }
+.tab[aria-pressed="true"] .tab-count { color: inherit; opacity: 0.75; }
 
-.stat-l {
-  font-size: 12px;
-  color: var(--text-3);
-  letter-spacing: -0.005em;
-}
+/* ─── Main ─── */
 
-/* ─── Section head ─── */
+.main { flex: 1; padding: 28px 0 72px; }
 
-.section {
-  margin-bottom: 56px;
-}
+.section { margin-bottom: 40px; }
 
 .section-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-bottom: 16px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+  min-height: 36px;
 }
 
 .section-title {
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
-.section-meta {
-  font-size: 13px;
-  color: var(--text-3);
-}
+.section-tools { display: flex; align-items: center; gap: 12px; }
 
-.section-controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.section-meta { font-size: 13px; color: var(--text-3); }
 
 .sort-select {
-  height: 30px;
-  padding: 0 28px 0 12px;
-  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none' stroke='%238f8f8f' stroke-width='1.5'%3E%3Cpath d='M2 4l3 3 3-3'/%3E%3C/svg%3E") no-repeat right 10px center;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-s);
-  font-family: inherit;
-  font-size: 13px;
+  height: 34px;
+  padding: 0 32px 0 12px;
+  background-color: var(--surface);
   color: var(--text);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none' stroke='%238f8f8f' stroke-width='1.5'%3E%3Cpath d='M2 4l3 3 3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
   cursor: pointer;
-  outline: none;
   appearance: none;
   -webkit-appearance: none;
   transition: border-color 0.15s;
 }
+.sort-select:hover { border-color: var(--text-3); }
 
-.sort-select:hover { border-color: var(--border-3); }
+.rail-btns { display: flex; gap: 8px; }
 
-/* ─── Featured ─── */
-
-.featured-card {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 24px;
-  align-items: center;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-l);
-  padding: 24px;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-
-.featured-card:hover { border-color: var(--border-2); }
-
-.featured-icon {
-  width: 88px;
-  height: 88px;
-  border-radius: 20px;
-  object-fit: cover;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.featured-icon-fallback {
-  width: 88px;
-  height: 88px;
-  border-radius: 20px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+.icon-btn {
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
-  font-size: 36px;
-  font-weight: 600;
-  color: var(--text-3);
-  flex-shrink: 0;
-}
-
-.featured-info { min-width: 0; }
-
-.featured-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-bottom: 10px;
-}
-
-.featured-label::before {
-  content: '';
-  width: 5px;
-  height: 5px;
+  background-color: transparent;
+  border: 1px solid var(--border);
   border-radius: 50%;
-  background: var(--text);
-}
-
-.featured-name {
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  margin-bottom: 6px;
-}
-
-.featured-desc {
-  font-size: 14px;
   color: var(--text-2);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+.icon-btn:hover { background-color: var(--surface-2); color: var(--text); }
+
+@media (pointer: coarse) { .rail-btns { display: none; } }
+
+/* ─── Icons ─── */
+
+.icon {
+  display: block;
+  width: var(--s);
+  height: var(--s);
+  flex: none;
+  border-radius: 22%;
+  object-fit: cover;
+  background-color: var(--surface-2);
+  box-shadow: 0 0 0 1px rgba(128, 128, 128, 0.18);
+}
+
+.icon-fallback {
+  display: grid;
+  place-items: center;
+  background-color: hsl(var(--h) 48% 40%);
+  color: #fff;
+  font-weight: 500;
+  font-size: calc(var(--s) * 0.44);
+  line-height: 1;
+  user-select: none;
+}
+
+/* ─── Rails ─── */
+
+.rail {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  margin: 0 -24px;
+  padding: 4px 24px 8px;
+  scroll-padding: 0 24px;
+}
+.rail::-webkit-scrollbar { display: none; }
+
+/* stretched link: whole card clickable, no nested anchors */
+.stretch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r, 16px);
+}
+.stretch:focus-visible { outline: none; }
+.stretch:focus-visible::after {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Banner */
+
+.banner {
+  --r: 20px;
+  position: relative;
+  flex: none;
+  width: min(520px, calc(100vw - 48px));
+  min-height: 216px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  border-radius: var(--r);
+  color: #fff;
+  background: linear-gradient(135deg, hsl(var(--h) 55% 30%), hsl(calc(var(--h) + 35) 60% 21%));
+}
+
+.banner-top { display: flex; gap: 16px; align-items: center; }
+.banner .icon { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3); }
+
+.banner-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 2px;
+}
+
+.banner-title {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.banner-sub { font-size: 13px; color: rgba(255, 255, 255, 0.82); }
+
+.banner-desc {
+  font-size: 14px;
   line-height: 1.5;
-  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.92);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  max-width: 560px;
+  flex: 1;
 }
 
-.featured-meta {
+.banner-foot {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
   font-size: 12px;
-  color: var(--text-3);
-  flex-wrap: wrap;
+  color: rgba(255, 255, 255, 0.82);
 }
 
-.featured-meta .sep { color: var(--text-4); }
+.banner-top > div, .card-body, .d-info { min-width: 0; }
 
-.featured-meta .version {
-  color: var(--text);
-  font-weight: 500;
-  font-family: var(--mono);
-  font-size: 11px;
-  padding: 1px 6px;
-  background: var(--surface-2);
-  border-radius: 4px;
+/* Tile */
+
+.tile {
+  --r: 16px;
+  position: relative;
+  flex: none;
+  width: 116px;
+  scroll-snap-align: start;
 }
 
-.featured-action {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  flex-shrink: 0;
-}
+.tile .icon { transition: box-shadow 0.15s; }
+.tile:hover .icon { box-shadow: 0 0 0 1px rgba(128, 128, 128, 0.18), 0 6px 16px rgba(0, 0, 0, 0.18); }
 
-.featured-stats {
-  font-size: 11px;
-  color: var(--text-3);
-  white-space: nowrap;
-}
-
-/* ─── Button ─── */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 16px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 999px;
-  font-family: inherit;
+.tile-title {
+  margin-top: 10px;
   font-size: 13px;
   font-weight: 500;
-  letter-spacing: -0.005em;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-  line-height: 1;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
-.btn:hover { background: var(--accent-hover); }
-.btn-sm { height: 30px; padding: 0 14px; font-size: 12px; }
+.tile-meta { margin-top: 2px; font-size: 12px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ─── Tabs ─── */
+/* Card (grid) */
 
-.tabs {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 16px;
-  margin-bottom: 8px;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 4px 16px;
+  margin: 0 -14px;
 }
 
-.tabs::-webkit-scrollbar { display: none; }
+.card {
+  --r: 16px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  border-radius: var(--r);
+  transition: background-color 0.15s;
+}
+.card:hover { background-color: var(--surface-2); }
 
-.tab {
-  height: 30px;
-  padding: 0 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: 13px;
+.card-title {
+  font-size: 15px;
   font-weight: 500;
-  color: var(--text-2);
-  cursor: pointer;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
-
-.tab:hover { color: var(--text); border-color: var(--border-2); }
-
-.tab.active {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-.tab-count {
-  font-size: 11px;
-  color: var(--text-4);
-  font-family: var(--mono);
-  letter-spacing: 0.01em;
-}
-
-.tab.active .tab-count { color: rgba(255, 255, 255, 0.55); }
-
-/* ─── App list ─── */
-
-.list { display: flex; flex-direction: column; }
-
-.app-row {
-  display: grid;
-  grid-template-columns: 64px 1fr auto;
-  gap: 18px;
-  align-items: center;
-  padding: 16px;
-  margin: 0 -16px;
-  border-radius: var(--radius-m);
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  transition: background 0.12s;
-}
-
-.app-row:last-child { border-bottom: none; }
-.app-row:hover { background: var(--surface); }
-.app-row:hover .app-name { color: var(--accent); }
-
-.app-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 14px;
-  object-fit: cover;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.app-icon-fallback {
-  width: 64px;
-  height: 64px;
-  border-radius: 14px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  display: grid;
-  place-items: center;
-  font-size: 26px;
-  font-weight: 600;
-  color: var(--text-3);
-  flex-shrink: 0;
-}
-
-.app-body { min-width: 0; }
-
-.app-title-row {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 2px;
-}
-
-.app-name {
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  color: var(--text);
+  line-height: 1.3;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition: color 0.12s;
 }
 
-.app-version {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-3);
-  padding: 1px 6px;
-  background: var(--surface-2);
-  border-radius: 4px;
-  flex-shrink: 0;
-  line-height: 1.6;
-}
-
-.app-meta-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--text-3);
-  margin-bottom: 4px;
-  flex-wrap: wrap;
-}
-
-.app-meta-row .sep { color: var(--text-4); }
-
-.app-meta-row .cat {
-  color: var(--text-2);
-  font-weight: 500;
-}
-
-.app-desc {
+.card-sub, .card-meta, .card-desc {
   font-size: 13px;
   color: var(--text-2);
-  line-height: 1.45;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.app-action {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.app-stats {
-  font-size: 11px;
-  color: var(--text-3);
+  text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: var(--mono);
-  letter-spacing: 0.005em;
+}
+.card-meta { color: var(--text-3); font-size: 12px; margin-top: 1px; }
+.card-desc { margin-top: 3px; }
+
+.star { color: var(--text-2); }
+
+/* Skeleton */
+
+.sk { background-color: var(--surface-2); border-radius: 8px; }
+.sk-card { display: grid; grid-template-columns: 64px 1fr; gap: 16px; padding: 14px; align-items: center; }
+.sk-icon { width: 64px; height: 64px; border-radius: 22%; }
+.sk-line { height: 12px; margin: 7px 0; }
+
+@keyframes pulse { 50% { opacity: 0.45; } }
+.sk, .sk-icon { animation: pulse 1.4s ease-in-out infinite; }
+
+/* States */
+
+.state { padding: 64px 16px; text-align: center; color: var(--text-2); }
+.state-title { font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+.state .btn { margin-top: 16px; }
+
+/* ─── Buttons ─── */
+
+.btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
-.app-stats .sep { color: var(--text-4); margin: 0 2px; }
+.btn-primary { background-color: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { background-color: var(--primary-hover); }
 
-/* ─── States ─── */
+.btn-outline { background-color: transparent; border-color: var(--border); color: var(--primary); }
+.btn-outline:hover { background-color: var(--tint); }
 
-.state {
-  padding: 64px 0;
-  text-align: center;
-  font-size: 13px;
-  color: var(--text-3);
-}
+.btn-light { background-color: #fff; color: #1f1f1f; }
+.btn-light:hover { background-color: #e8f0ec; }
+.btn-light:focus-visible { outline-color: #fff; }
 
-.spinner {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border: 1.5px solid var(--border-2);
-  border-top-color: var(--text-2);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  margin-right: 8px;
-  vertical-align: -2px;
-}
+.btn-lg { height: 44px; padding: 0 32px; font-size: 15px; }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+/* ─── Footer ─── */
 
-/* ═══════════════════════════════════════
-   FOOTER
-   ═══════════════════════════════════════ */
-
-.footer {
-  border-top: 1px solid var(--border);
-  padding: 24px 0;
-}
+.footer { border-top: 1px solid var(--border); padding: 24px 0 calc(24px + env(safe-area-inset-bottom)); }
 
 .footer-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
   font-size: 12px;
   color: var(--text-3);
-  flex-wrap: wrap;
-  gap: 12px;
 }
-
-.footer-inner a { color: var(--text-2); }
+.footer-inner a { color: var(--text-2); text-decoration: underline; text-underline-offset: 2px; }
 .footer-inner a:hover { color: var(--text); }
 
-/* ═══════════════════════════════════════
-   MODAL
-   ═══════════════════════════════════════ */
+/* ─── Detail sheet ─── */
 
-.modal {
+.sheet {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(10, 10, 10, 0.32);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 60px 24px;
+  background: var(--overlay);
   overflow-y: auto;
-  animation: fadeIn 0.15s ease;
+  overscroll-behavior: contain;
+  padding: 32px 24px;
+  animation: fade 0.15s ease-out;
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
 
-.modal-panel {
-  position: relative;
+.sheet-panel {
+  max-width: 820px;
+  margin: 0 auto;
   background: var(--surface);
-  border: 1px solid var(--border-2);
-  border-radius: var(--radius-l);
-  max-width: 680px;
-  width: 100%;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
-  animation: slideUp 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+  border-radius: 24px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+  animation: rise 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+  outline: none;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(12px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.modal-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--text-3);
-  cursor: pointer;
-  transition: all 0.15s;
-  z-index: 10;
-}
-
-.modal-close:hover {
-  background: var(--surface-2);
-  color: var(--text);
-  border-color: var(--border-2);
-}
-
-.modal-header {
-  display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 18px;
-  padding: 28px 28px 24px;
-  border-bottom: 1px solid var(--border);
-}
-
-.modal-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  object-fit: cover;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-}
-
-.modal-icon-fallback {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  display: grid;
-  place-items: center;
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--text-3);
-}
-
-.modal-info { min-width: 0; padding-top: 4px; }
-
-.modal-name {
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  margin-bottom: 4px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.modal-by {
-  font-size: 12px;
-  color: var(--text-3);
-  margin-bottom: 10px;
-}
-
-.modal-by .sep { margin: 0 4px; }
-
-.modal-desc {
-  font-size: 14px;
-  color: var(--text-2);
-  line-height: 1.5;
-}
-
-.modal-body { padding: 20px 28px 28px; }
-
-.modal-section { margin-bottom: 24px; }
-.modal-section:last-child { margin-bottom: 0; }
-
-.modal-section-head {
+.sheet-bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
-
-.modal-section-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.005em;
-}
-
-.modal-section-meta {
-  font-size: 11px;
-  color: var(--text-3);
-  font-family: var(--mono);
-}
-
-.download-item {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 16px;
   align-items: center;
-  padding: 11px 12px;
-  margin: 0 -12px;
-  border-radius: var(--radius-s);
-  transition: background 0.12s;
-  cursor: pointer;
+  height: 56px;
+  padding: 0 10px;
+  background: var(--surface);
+  border-radius: 24px 24px 0 0;
 }
 
-.download-item:hover { background: var(--surface-2); }
+.sheet-bar .icon-btn { border-color: transparent; }
 
-.download-name {
-  font-size: 13px;
-  font-family: var(--mono);
-  color: var(--text);
-  letter-spacing: -0.005em;
+.sheet-content { padding: 4px 32px 36px; }
+
+.d-head { display: flex; gap: 24px; align-items: center; margin-bottom: 20px; }
+
+.d-name {
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.d-dev {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--primary);
+}
+.d-dev:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+.d-cat { margin-top: 2px; font-size: 13px; color: var(--text-2); }
+
+.d-stats {
+  display: flex;
+  margin: 8px 0 22px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.d-stats::-webkit-scrollbar { display: none; }
+
+.d-stat {
+  flex: 1 0 96px;
+  min-width: 0;
+  padding: 4px 16px;
+  text-align: center;
+  border-left: 1px solid var(--border);
+}
+.d-stat:first-child { border-left: none; }
+
+.d-stat b {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.d-stat span { font-size: 12px; color: var(--text-2); }
 
-.download-size {
-  font-size: 11px;
-  font-family: var(--mono);
-  color: var(--text-3);
-  white-space: nowrap;
+.d-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.d-actions .btn-primary { min-width: 220px; }
+
+.d-file { margin-top: 10px; font-size: 12px; color: var(--text-3); overflow-wrap: anywhere; }
+
+.d-section { margin-top: 32px; }
+
+.d-title { font-size: 18px; font-weight: 500; margin-bottom: 12px; text-wrap: balance; }
+
+.d-text { font-size: 14px; line-height: 1.6; color: var(--text-2); overflow-wrap: anywhere; }
+
+.shots {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  padding-bottom: 8px;
+  margin-top: 28px;
+}
+.shots img {
+  flex: none;
+  height: 320px;
+  width: auto;
+  border-radius: 14px;
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  scroll-snap-align: start;
 }
 
-.download-count {
-  font-size: 11px;
-  font-family: var(--mono);
-  color: var(--text-3);
-  white-space: nowrap;
-  min-width: 56px;
-  text-align: right;
-}
-
-.repo-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 12px;
-  margin: 0 -12px;
-  border-radius: var(--radius-s);
-  font-size: 12px;
-  font-family: var(--mono);
-  color: var(--text-2);
-  transition: all 0.15s;
-}
-
-.repo-link:hover { background: var(--surface-2); color: var(--text); }
-
-.repo-link svg { color: var(--text-3); }
+.notes-meta { font-size: 12px; color: var(--text-3); margin-bottom: 8px; }
 
 .notes {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--text-2);
   white-space: pre-wrap;
-  word-break: break-word;
-  max-height: 240px;
-  overflow-y: auto;
-  padding-right: 8px;
+  overflow-wrap: anywhere;
+  max-height: 9.6em;
+  overflow: hidden;
+}
+.notes.open { max-height: none; }
+
+.link-btn {
+  margin-top: 8px;
+  padding: 6px 0;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.link-btn:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+.files { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+
+.file {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  transition: background-color 0.12s;
+}
+.file:first-child { border-top: none; }
+.file:hover { background-color: var(--surface-2); }
+.file:focus-visible { outline-offset: -2px; border-radius: 14px; }
+
+.file-name { font-family: var(--mono); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.file-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background-color: var(--tint);
+  color: var(--primary);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 500;
+  vertical-align: 1px;
 }
 
-.notes::-webkit-scrollbar { width: 6px; }
-.notes::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 3px; }
+.file-sub { font-size: 12px; color: var(--text-3); white-space: nowrap; text-align: right; }
+.file svg { color: var(--text-2); }
 
-/* ═══════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════ */
+.info { border-top: 1px solid var(--border); }
 
-@media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; gap: 24px; }
-  .hero-stats { padding-top: 24px; border-top: 1px solid var(--border); }
+.info-row {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
 }
+.info-row dt { color: var(--text-2); }
+.info-row dd { overflow-wrap: anywhere; }
+.info-row a { color: var(--primary); }
+.info-row a:hover { text-decoration: underline; text-underline-offset: 2px; }
 
-@media (max-width: 640px) {
+/* ─── Responsive ─── */
+
+@media (max-width: 720px) {
+  :root { --top: 56px; }
+  html { scroll-padding-top: 120px; }
   .wrap { padding: 0 16px; }
-  .topbar-inner { height: 56px; gap: 12px; }
-  .search-wrap { max-width: none; }
-  .brand-name { display: none; }
-  .topbar-nav .topbar-link span { display: none; }
+  .topbar-inner { gap: 10px; }
+  .brand-name, .topbar-link span { display: none; }
+  .topbar-link { padding: 0; width: 40px; justify-content: center; }
+  .search-input { height: 40px; }
 
-  .main { padding: 32px 0 56px; }
-  .hero-title { font-size: 30px; }
-  .hero-sub { font-size: 14px; }
+  .main { padding: 20px 0 56px; }
+  .section { margin-bottom: 32px; }
+  .section-title { font-size: 20px; }
+  .section-head { flex-wrap: wrap; }
 
-  .featured-card {
-    grid-template-columns: auto 1fr;
-    gap: 16px;
-    padding: 18px;
-  }
-  .featured-action {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-  }
-  .featured-icon, .featured-icon-fallback {
-    width: 64px;
-    height: 64px;
-    border-radius: 14px;
-  }
-  .featured-name { font-size: 18px; }
-  .featured-desc { -webkit-line-clamp: 2; }
+  .rail { margin: 0 -16px; padding: 4px 16px 8px; scroll-padding: 0 16px; }
+  .banner { width: calc(100vw - 56px); padding: 18px; min-height: 200px; }
+  .banner-title { font-size: 20px; }
+  .grid { margin: 0 -12px; }
+  .card { padding: 12px; }
 
-  .app-row {
-    grid-template-columns: 52px 1fr;
-    gap: 12px;
-    padding: 14px 12px;
-    margin: 0 -12px;
-  }
-  .app-icon, .app-icon-fallback {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-  }
-  .app-action {
-    grid-column: 2;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
-  .app-stats { display: none; }
-  .app-desc { -webkit-line-clamp: 2; }
+  .sheet { padding: 0; }
+  .sheet-panel { border-radius: 0; min-height: 100%; box-shadow: none; }
+  .sheet-bar { border-radius: 0; }
+  .sheet-content { padding: 0 16px calc(28px + env(safe-area-inset-bottom)); }
+  .d-head { gap: 16px; }
+  .d-name { font-size: 22px; }
+  .d-actions .btn { flex: 1 1 100%; }
+  .d-actions .btn-primary { min-width: 0; }
+  .shots img { height: 240px; }
+  .info-row { grid-template-columns: 110px minmax(0, 1fr); }
+  .file { grid-template-columns: minmax(0, 1fr) auto; }
+  .file-dl { display: none; }
+}
 
-  .modal { padding: 0; align-items: stretch; }
-  .modal-panel {
-    border-radius: 0;
-    min-height: 100vh;
-    border: none;
-    box-shadow: none;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
-  .modal-header { padding: 20px; grid-template-columns: 60px 1fr; gap: 14px; }
-  .modal-icon, .modal-icon-fallback { width: 60px; height: 60px; border-radius: 14px; }
-  .modal-name { font-size: 19px; }
-  .modal-body { padding: 16px 20px 24px; }
-  .modal-close { top: 12px; right: 12px; }
-  .download-item { grid-template-columns: 1fr auto; }
-  .download-count { display: none; }
-
-  .footer-inner { justify-content: center; text-align: center; }
 }
 </style>
 </head>
 <body>
 
+<a class="skip" href="#main">К содержимому</a>
+
 <header class="topbar">
   <div class="wrap topbar-inner">
-    <a class="brand" href="./">
-      <span class="brand-icon">A</span>
-      <span class="brand-name">Apps</span>
+    <a class="brand" href="./" aria-label="Apps — на главную">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.2v11.6a.6.6 0 0 0 .9.5l9.2-5.8a.6.6 0 0 0 0-1L4.9 1.7a.6.6 0 0 0-.9.5z"/></svg>
+      </span>
+      <span class="brand-name" translate="no">Apps</span>
     </a>
 
-    <div class="search-wrap">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="6" cy="6" r="4"/>
-        <path d="M9 9l3 3"/>
+    <form class="search" role="search" id="search-form" onsubmit="return false">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="8" cy="8" r="5.5"/><path d="M12.5 12.5L16 16"/>
       </svg>
-      <input type="search" id="search" class="search-input" placeholder="Поиск приложений" aria-label="Поиск">
-    </div>
+      <input type="search" id="search" name="q" class="search-input" placeholder="Поиск приложений…" aria-label="Поиск приложений" autocomplete="off" spellcheck="false" enterkeyhint="search">
+    </form>
 
-    <nav class="topbar-nav">
-      <a class="topbar-link" href="https://github.com" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+    <nav aria-label="Ссылки">
+      <a class="topbar-link" href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
         </svg>
-        <span>GitHub</span>
+        <span translate="no">GitHub</span>
       </a>
     </nav>
   </div>
 </header>
 
-<main class="main">
+<div class="filterbar">
   <div class="wrap">
+    <div class="tabs" id="tabs" role="group" aria-label="Категории"></div>
+  </div>
+</div>
 
-    <section class="hero">
-      <div>
-        <h1 class="hero-title">Каталог приложений</h1>
-        <p class="hero-sub">Прямые релизы с GitHub. Без рекламы, без алгоритмов, без посредников между вами и разработчиком.</p>
-      </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-v" id="stat-total">—</span>
-          <span class="stat-l">приложений</span>
-        </div>
-        <div class="stat">
-          <span class="stat-v" id="stat-cats">—</span>
-          <span class="stat-l">категорий</span>
-        </div>
-      </div>
-    </section>
+<main class="main" id="main">
+  <div class="wrap">
+    <h1 class="sr-only">Каталог приложений</h1>
 
-    <section class="section" id="featured-section" hidden>
+    <div id="home" hidden></div>
+
+    <section class="section" aria-labelledby="list-title">
       <div class="section-head">
-        <h2 class="section-title">Featured</h2>
-        <span class="section-meta">Выбор редакции</span>
-      </div>
-      <div id="featured-container"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">Все приложения</h2>
-        <div class="section-controls">
-          <span class="section-meta" id="catalog-count">—</span>
-          <select class="sort-select" id="sort" aria-label="Сортировка">
+        <h2 class="section-title" id="list-title">Все приложения</h2>
+        <div class="section-tools">
+          <span class="section-meta" id="catalog-count" aria-live="polite"></span>
+          <select class="sort-select" id="sort" name="sort" aria-label="Сортировка">
             <option value="name">По названию</option>
             <option value="stars">По звёздам</option>
             <option value="updated">По обновлению</option>
@@ -996,33 +866,33 @@ img { display: block; max-width: 100%; }
         </div>
       </div>
 
-      <div class="tabs" id="tabs"></div>
-      <div class="list" id="list"></div>
-
-      <div class="state" id="loading">
-        <span class="spinner"></span>Загрузка каталога
+      <div class="grid" id="list" aria-busy="true">
+        <div class="sk-card" aria-hidden="true"><div class="sk-icon sk"></div><div><div class="sk sk-line" style="width:60%"></div><div class="sk sk-line" style="width:40%"></div></div></div>
+        <div class="sk-card" aria-hidden="true"><div class="sk-icon sk"></div><div><div class="sk sk-line" style="width:55%"></div><div class="sk sk-line" style="width:35%"></div></div></div>
+        <div class="sk-card" aria-hidden="true"><div class="sk-icon sk"></div><div><div class="sk sk-line" style="width:65%"></div><div class="sk sk-line" style="width:45%"></div></div></div>
+        <div class="sk-card" aria-hidden="true"><div class="sk-icon sk"></div><div><div class="sk sk-line" style="width:50%"></div><div class="sk sk-line" style="width:30%"></div></div></div>
       </div>
-      <div class="state" id="empty" hidden>Ничего не найдено</div>
+      <p class="sr-only" role="status" id="loading">Загрузка каталога…</p>
+      <div class="state" id="empty" hidden></div>
     </section>
-
   </div>
 </main>
 
 <footer class="footer">
   <div class="wrap footer-inner">
-    <span>Apps · 2026</span>
-    <span>Работает на <a href="https://github.com" target="_blank" rel="noopener">GitHub Releases</a></span>
+    <span><span translate="no">Apps</span> · <span id="foot-stats">2026</span></span>
+    <span>Работает на <a href="https://github.com" target="_blank" rel="noopener" translate="no">GitHub Releases</a></span>
   </div>
 </footer>
 
-<div class="modal" id="modal" hidden>
-  <div class="modal-panel">
-    <button class="modal-close" id="modal-close" aria-label="Закрыть">
-      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
-        <path d="M2 2L12 12M12 2L2 12"/>
-      </svg>
-    </button>
-    <div id="modal-body"></div>
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-panel" id="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title" tabindex="-1">
+    <div class="sheet-bar">
+      <button type="button" class="icon-btn" id="sheet-close" aria-label="Закрыть">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10H4M9 5l-5 5 5 5"/></svg>
+      </button>
+    </div>
+    <div class="sheet-content" id="sheet-body"></div>
   </div>
 </div>
 
@@ -1044,29 +914,30 @@ const state = {
   sort: 'name',
 };
 
+const $ = (id) => document.getElementById(id);
+
 // ─── Утилиты ───
 
-const fmtNum = (n) => {
-  n = n || 0;
-  if (n >= 1e6) return (n / 1e6).toFixed(1).replace('.0', '') + 'M';
-  if (n >= 1e3) return (n / 1e3).toFixed(1).replace('.0', '') + 'K';
-  return String(n);
-};
+const NF = new Intl.NumberFormat('ru', { notation: 'compact', maximumFractionDigits: 1 });
+const fmtNum = (n) => NF.format(n || 0);
 
+const sizeNF = (d) => new Intl.NumberFormat('ru', { maximumFractionDigits: d });
 const fmtSize = (b) => {
   if (!b) return '—';
-  const u = ['B', 'KB', 'MB', 'GB'];
+  const u = ['Б', 'КБ', 'МБ', 'ГБ'];
   let i = 0, n = b;
   while (n >= 1024 && i < u.length - 1) { n /= 1024; i++; }
-  return n.toFixed(n < 10 ? 1 : 0) + ' ' + u[i];
+  return sizeNF(n < 10 ? 1 : 0).format(n) + '\u00A0' + u[i];
 };
 
-const MONTHS = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
-
-const fmtDate = (iso) => {
+const DF_SHORT = new Intl.DateTimeFormat('ru', { day: 'numeric', month: 'short' });
+const DF_LONG = new Intl.DateTimeFormat('ru', { day: 'numeric', month: 'long', year: 'numeric' });
+const fmtDate = (iso, long) => {
   if (!iso) return '—';
   const d = new Date(iso);
-  return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+  if (isNaN(d)) return '—';
+  const sameYear = d.getFullYear() === new Date().getFullYear();
+  return (long || !sameYear ? DF_LONG : DF_SHORT).format(d);
 };
 
 const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({
@@ -1076,6 +947,11 @@ const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({
 const isInstallable = (name) =>
   /\.(apk|aab|ipa|exe|msi|dmg|pkg|deb|rpm|appimage|zip|tar\.gz)$/i.test(name);
 
+const ext = (name) => {
+  const m = String(name).toLowerCase().match(/\.(tar\.gz|[a-z0-9]+)$/);
+  return m ? m[1] : '';
+};
+
 const plural = (n, one, few, many) => {
   const mod10 = n % 10, mod100 = n % 100;
   if (mod10 === 1 && mod100 !== 11) return one;
@@ -1083,16 +959,57 @@ const plural = (n, one, few, many) => {
   return many;
 };
 
+const hueOf = (s) => {
+  let h = 0;
+  for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return h % 360;
+};
+
+// ─── Платформа → предпочитаемый формат ───
+
+function platformPrefs() {
+  const ua = navigator.userAgent;
+  if (/android/i.test(ua)) return ['apk', 'aab'];
+  if (/iphone|ipad|ipod/i.test(ua)) return ['ipa'];
+  if (/windows/i.test(ua)) return ['exe', 'msi'];
+  if (/macintosh|mac os/i.test(ua)) return ['dmg', 'pkg'];
+  if (/linux|x11/i.test(ua)) return ['appimage', 'deb', 'rpm', 'tar.gz'];
+  return [];
+}
+const PREFS = platformPrefs();
+const matchesPlatform = (a) => PREFS.includes(ext(a.name));
+
+function bestAsset(assets) {
+  for (const e of PREFS) {
+    const a = assets.find((x) => ext(x.name) === e);
+    if (a) return a;
+  }
+  return assets[0];
+}
+
+const installLabel = (app) => /^(apk|aab|ipa)$/.test(ext(app.best.name)) ? 'Установить' : 'Скачать';
+
 // ─── Icon ───
 
-const iconSrc = (app) => app.icon || `https://avatars.githubusercontent.com/${app.owner}?size=128`;
+const iconSrc = (app, px) =>
+  app.icon || `https://avatars.githubusercontent.com/${encodeURIComponent(app.owner)}?size=${px * 2}`;
 
-const renderIcon = (app, cls) => {
+const renderIcon = (app, px) => {
   const letter = escapeHtml((app.name[0] || '?').toUpperCase());
-  const src = escapeHtml(iconSrc(app));
-  return `<img class="${cls}" src="${src}" alt="" loading="lazy"
-    onerror="this.outerHTML='<div class=\\'${cls}-fallback\\'>${letter}</div>'">`;
+  return `<img class="icon" src="${escapeHtml(iconSrc(app, px))}" alt="" width="${px}" height="${px}"
+    loading="lazy" decoding="async" data-letter="${letter}" style="--s:${px}px;--h:${app.hue}">`;
 };
+
+document.addEventListener('error', (e) => {
+  const t = e.target;
+  if (t.tagName !== 'IMG' || !t.classList.contains('icon')) return;
+  const d = document.createElement('div');
+  d.className = 'icon icon-fallback';
+  d.style.cssText = t.style.cssText;
+  d.setAttribute('aria-hidden', 'true');
+  d.textContent = t.dataset.letter || '?';
+  t.replaceWith(d);
+}, true);
 
 // ─── GitHub API ───
 
@@ -1105,7 +1022,7 @@ async function ghFetch(path) {
 }
 
 async function loadApp(entry) {
-  const { repo, category = 'Прочее', featured = false, description, icon } = entry;
+  const { repo, category = 'Прочее', featured = false, description, icon, screenshots } = entry;
   try {
     const [info, release] = await Promise.all([
       ghFetch(`/repos/${repo}`),
@@ -1125,6 +1042,7 @@ async function loadApp(entry) {
 
     const downloads = assets.reduce((s, a) => s + a.downloads, 0);
     const size = assets.reduce((m, a) => Math.max(m, a.size), 0);
+    const best = bestAsset(assets);
 
     return {
       id: repo,
@@ -1135,13 +1053,17 @@ async function loadApp(entry) {
       category,
       featured,
       icon: icon || null,
+      screenshots: Array.isArray(screenshots) ? screenshots : [],
+      license: info.license?.spdx_id && info.license.spdx_id !== 'NOASSERTION' ? info.license.spdx_id : '',
       stars: info.stargazers_count || 0,
       updated: release.published_at || info.updated_at,
       version: release.tag_name || release.name || '',
       releaseNotes: release.body || '',
       assets,
+      best,
+      size: best.size || size,
       downloads,
-      size,
+      hue: hueOf(repo),
     };
   } catch (err) {
     console.warn(`skip ${repo}:`, err.message);
@@ -1163,63 +1085,117 @@ async function loadApps() {
   return results.filter(Boolean);
 }
 
-// ─── Hero stats ───
+// ─── Разметка карточек ───
 
-function renderStats() {
-  document.getElementById('stat-total').textContent = state.apps.length;
-  document.getElementById('stat-cats').textContent =
-    new Set(state.apps.map((a) => a.category)).size;
+const hashFor = (app) => '#/' + app.repo;
+
+const metaLine = (app) =>
+  [app.stars ? `<span class="star" aria-hidden="true">★</span>\u00A0${fmtNum(app.stars)}` : '', fmtSize(app.size)]
+    .filter(Boolean).join(' · ');
+
+const metaLabel = (app) =>
+  [app.stars ? `${fmtNum(app.stars)} звёзд` : '', fmtSize(app.size)].filter(Boolean).join(', ');
+
+function bannerHtml(app) {
+  return `
+  <article class="banner" style="--h:${app.hue}">
+    <div class="banner-top">
+      ${renderIcon(app, 88)}
+      <div>
+        <p class="banner-label">Рекомендуем</p>
+        <h3 class="banner-title"><a class="stretch" href="${hashFor(app)}" data-app>${escapeHtml(app.name)}</a></h3>
+        <p class="banner-sub">${escapeHtml(app.owner)} · ${escapeHtml(app.category)}</p>
+      </div>
+    </div>
+    <p class="banner-desc">${escapeHtml(app.description)}</p>
+    <div class="banner-foot">
+      <a class="btn btn-light" href="${escapeHtml(app.best.url)}" target="_blank" rel="noopener">${installLabel(app)}</a>
+      <span>${escapeHtml(app.version)} · ${fmtSize(app.best.size)}</span>
+    </div>
+  </article>`;
 }
 
-// ─── Featured ───
-
-function renderFeatured() {
-  const section = document.getElementById('featured-section');
-  const featured = state.apps.filter((a) => a.featured);
-  if (!featured.length) { section.hidden = true; return; }
-  section.hidden = false;
-
-  const app = featured[0];
-  const container = document.getElementById('featured-container');
-
-  container.innerHTML = `
-    <div class="featured-card" data-id="${escapeHtml(app.id)}">
-      ${renderIcon(app, 'featured-icon')}
-      <div class="featured-info">
-        <div class="featured-label">Выбор редакции</div>
-        <h3 class="featured-name">${escapeHtml(app.name)}</h3>
-        <p class="featured-desc">${escapeHtml(app.description)}</p>
-        <div class="featured-meta">
-          <span class="version">${escapeHtml(app.version)}</span>
-          <span class="sep">·</span>
-          <span>${fmtSize(app.size)}</span>
-          <span class="sep">·</span>
-          <span>${escapeHtml(app.category)}</span>
-          <span class="sep">·</span>
-          <span>${fmtDate(app.updated)}</span>
-        </div>
-      </div>
-      <div class="featured-action">
-        <a class="btn" href="${escapeHtml(app.assets[0].url)}" target="_blank" rel="noopener"
-           onclick="event.stopPropagation()">Скачать</a>
-        <span class="featured-stats">${app.downloads ? fmtNum(app.downloads) + ' загрузок' : '—'}</span>
-      </div>
-    </div>`;
-
-  container.querySelector('.featured-card')
-    .addEventListener('click', () => openModal(app.id));
+function tileHtml(app) {
+  return `
+  <article class="tile">
+    ${renderIcon(app, 116)}
+    <h3 class="tile-title"><a class="stretch" href="${hashFor(app)}" data-app>${escapeHtml(app.name)}</a></h3>
+    <p class="tile-meta">${metaLine(app)}</p>
+  </article>`;
 }
 
-// ─── Tabs ───
+function cardHtml(app) {
+  return `
+  <article class="card">
+    ${renderIcon(app, 64)}
+    <div class="card-body">
+      <h3 class="card-title"><a class="stretch" href="${hashFor(app)}" data-app>${escapeHtml(app.name)}</a></h3>
+      <p class="card-sub">${escapeHtml(app.owner)} · ${escapeHtml(app.category)}</p>
+      <p class="card-meta">${metaLine(app)}</p>
+      <p class="card-desc">${escapeHtml(app.description)}</p>
+    </div>
+  </article>`;
+}
+
+const railButtons = (id) => `
+  <div class="rail-btns">
+    <button type="button" class="icon-btn" data-rail="${id}" data-dir="-1" aria-label="Назад">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+    </button>
+    <button type="button" class="icon-btn" data-rail="${id}" data-dir="1" aria-label="Вперёд">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+    </button>
+  </div>`;
+
+function railSection(id, title, items, tmpl, extraClass = '') {
+  return `
+  <section class="section" aria-labelledby="h-${id}">
+    <div class="section-head">
+      <h2 class="section-title" id="h-${id}">${title}</h2>
+      ${railButtons(id)}
+    </div>
+    <div class="rail ${extraClass}" id="rail-${id}">${items.map(tmpl).join('')}</div>
+  </section>`;
+}
+
+// ─── Главная: подборки ───
+
+function renderHome() {
+  const home = $('home');
+  const show = state.category === 'all' && !state.query;
+  let html = '';
+
+  if (show) {
+    const featured = state.apps.filter((a) => a.featured);
+    if (featured.length) html += railSection('feat', 'Выбор редакции', featured, bannerHtml);
+
+    if (state.apps.length >= 6) {
+      const recent = [...state.apps]
+        .sort((a, b) => new Date(b.updated) - new Date(a.updated)).slice(0, 14);
+      html += railSection('new', 'Недавно обновлённые', recent, tileHtml);
+
+      const popular = [...state.apps]
+        .sort((a, b) => (b.downloads - a.downloads) || (b.stars - a.stars)).slice(0, 14);
+      if (popular[0] && (popular[0].downloads || popular[0].stars)) {
+        html += railSection('top', 'Популярное', popular, tileHtml);
+      }
+    }
+  }
+
+  home.innerHTML = html;
+  home.hidden = !html;
+}
+
+// ─── Категории ───
 
 function renderTabs() {
   const counts = {};
   state.apps.forEach((a) => { counts[a.category] = (counts[a.category] || 0) + 1; });
-  const cats = Object.keys(counts).sort();
+  const cats = Object.keys(counts).sort((a, b) => a.localeCompare(b, 'ru'));
   const items = [['all', 'Все', state.apps.length], ...cats.map((c) => [c, c, counts[c]])];
 
-  document.getElementById('tabs').innerHTML = items.map(([val, label, count]) =>
-    `<button class="tab ${state.category === val ? 'active' : ''}" data-cat="${escapeHtml(val)}">
+  $('tabs').innerHTML = items.map(([val, label, count]) =>
+    `<button type="button" class="tab" data-cat="${escapeHtml(val)}" aria-pressed="${state.category === val}">
       ${escapeHtml(label)}<span class="tab-count">${count}</span>
     </button>`).join('');
 }
@@ -1234,186 +1210,308 @@ function getVisible() {
     list = list.filter((a) =>
       a.name.toLowerCase().includes(q) ||
       a.description.toLowerCase().includes(q) ||
-      a.owner.toLowerCase().includes(q));
+      a.owner.toLowerCase().includes(q) ||
+      a.category.toLowerCase().includes(q));
   }
   const sorted = [...list];
-  if (state.sort === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name));
+  if (state.sort === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
   else if (state.sort === 'stars') sorted.sort((a, b) => b.stars - a.stars);
   else if (state.sort === 'updated') sorted.sort((a, b) => new Date(b.updated) - new Date(a.updated));
   else if (state.sort === 'downloads') sorted.sort((a, b) => b.downloads - a.downloads);
   return sorted;
 }
 
+function resetFilters() {
+  state.category = 'all';
+  state.query = '';
+  $('search').value = '';
+  refresh();
+}
+
 function renderList() {
-  const listEl = document.getElementById('list');
-  const empty = document.getElementById('empty');
+  const listEl = $('list');
+  const empty = $('empty');
   const apps = getVisible();
 
-  document.getElementById('catalog-count').textContent =
-    `${apps.length} ${plural(apps.length, 'приложение', 'приложения', 'приложений')}`;
+  $('list-title').textContent =
+    state.query ? 'Результаты поиска' :
+    state.category !== 'all' ? state.category : 'Все приложения';
+
+  $('catalog-count').textContent =
+    `${apps.length}\u00A0${plural(apps.length, 'приложение', 'приложения', 'приложений')}`;
+
+  listEl.setAttribute('aria-busy', 'false');
 
   if (!apps.length) {
     listEl.innerHTML = '';
     empty.hidden = false;
+    empty.innerHTML = `
+      <p class="state-title">Ничего не найдено</p>
+      <p>Измените запрос или выберите другую категорию.</p>
+      <button type="button" class="btn btn-outline" id="reset">Сбросить фильтры</button>`;
     return;
   }
   empty.hidden = true;
-
-  listEl.innerHTML = apps.map((app) => `
-    <div class="app-row" data-id="${escapeHtml(app.id)}" tabindex="0">
-      ${renderIcon(app, 'app-icon')}
-      <div class="app-body">
-        <div class="app-title-row">
-          <span class="app-name">${escapeHtml(app.name)}</span>
-          <span class="app-version">${escapeHtml(app.version)}</span>
-        </div>
-        <div class="app-meta-row">
-          <span>${escapeHtml(app.owner)}</span>
-          <span class="sep">·</span>
-          <span class="cat">${escapeHtml(app.category)}</span>
-          <span class="sep">·</span>
-          <span>${fmtSize(app.size)}</span>
-          <span class="sep">·</span>
-          <span>${fmtDate(app.updated)}</span>
-        </div>
-        <p class="app-desc">${escapeHtml(app.description)}</p>
-      </div>
-      <div class="app-action">
-        <a class="btn btn-sm" href="${escapeHtml(app.assets[0].url)}"
-           target="_blank" rel="noopener"
-           onclick="event.stopPropagation()">Скачать</a>
-        <span class="app-stats">
-          ${app.stars ? '★ ' + fmtNum(app.stars) : '—'}
-          ${app.downloads ? '<span class="sep">·</span>' + fmtNum(app.downloads) + ' загрузок' : ''}
-        </span>
-      </div>
-    </div>`).join('');
-
-  listEl.querySelectorAll('.app-row').forEach((row) => {
-    row.addEventListener('click', () => openModal(row.dataset.id));
-    row.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openModal(row.dataset.id);
-      }
-    });
-  });
+  listEl.innerHTML = apps.map(cardHtml).join('');
 }
 
-// ─── Modal ───
+function syncUrl() {
+  const p = new URLSearchParams();
+  if (state.query) p.set('q', state.query);
+  if (state.category !== 'all') p.set('cat', state.category);
+  if (state.sort !== 'name') p.set('sort', state.sort);
+  const qs = p.toString();
+  history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+}
 
-function openModal(id) {
-  const app = state.apps.find((a) => a.id === id);
-  if (!app) return;
+function refresh() {
+  renderTabs();
+  renderHome();
+  renderList();
+  syncUrl();
+}
 
-  const downloads = app.assets.map((a) => `
-    <a class="download-item" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">
-      <span class="download-name">${escapeHtml(a.name)}</span>
-      <span class="download-size">${fmtSize(a.size)}</span>
-      <span class="download-count">${fmtNum(a.downloads)} ↓</span>
+// ─── Карточка приложения ───
+
+const ICON_DL = `<svg class="file-dl" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v9M5 8l4 4 4-4M3 15h12"/></svg>`;
+
+function detailHtml(app) {
+  const files = app.assets.map((a) => `
+    <a class="file" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">
+      <span class="file-name">${escapeHtml(a.name)}${matchesPlatform(a) ? '<span class="file-badge">Для вашего устройства</span>' : ''}</span>
+      <span class="file-sub">${fmtSize(a.size)}${a.downloads ? ' · ' + fmtNum(a.downloads) + '\u00A0↓' : ''}</span>
+      ${ICON_DL}
     </a>`).join('');
 
-  document.getElementById('modal-body').innerHTML = `
-    <div class="modal-header">
-      ${renderIcon(app, 'modal-icon')}
-      <div class="modal-info">
-        <h2 class="modal-name">${escapeHtml(app.name)}</h2>
-        <div class="modal-by">
-          ${escapeHtml(app.owner)}
-          <span class="sep">·</span>
-          ${escapeHtml(app.category)}
-          <span class="sep">·</span>
-          ${app.stars ? '★ ' + fmtNum(app.stars) : '—'}
-        </div>
-        <p class="modal-desc">${escapeHtml(app.description)}</p>
+  const shots = app.screenshots.length
+    ? `<div class="shots" role="group" aria-label="Скриншоты">${app.screenshots.map((s, i) =>
+        `<img src="${escapeHtml(s)}" alt="Скриншот ${i + 1}" height="320" loading="lazy" decoding="async">`).join('')}</div>`
+    : '';
+
+  const info = [
+    ['Версия', escapeHtml(app.version) || '—'],
+    ['Обновлено', fmtDate(app.updated, true)],
+    ['Размер', fmtSize(app.best.size)],
+    ['Категория', escapeHtml(app.category)],
+    ['Разработчик', `<a href="https://github.com/${encodeURIComponent(app.owner)}" target="_blank" rel="noopener">${escapeHtml(app.owner)}</a>`],
+    app.license ? ['Лицензия', escapeHtml(app.license)] : null,
+    ['Исходный код', `<a href="https://github.com/${escapeHtml(app.repo)}" target="_blank" rel="noopener" translate="no">github.com/${escapeHtml(app.repo)}</a>`],
+  ].filter(Boolean).map(([k, v]) => `<div class="info-row"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+
+  return `
+    <div class="d-head">
+      ${renderIcon(app, 112)}
+      <div class="d-info">
+        <h2 class="d-name" id="sheet-title">${escapeHtml(app.name)}</h2>
+        <a class="d-dev" href="https://github.com/${encodeURIComponent(app.owner)}" target="_blank" rel="noopener">${escapeHtml(app.owner)}</a>
+        <p class="d-cat">${escapeHtml(app.category)}</p>
       </div>
     </div>
-    <div class="modal-body">
-      <div class="modal-section">
-        <div class="modal-section-head">
-          <span class="modal-section-title">Загрузки</span>
-          <span class="modal-section-meta">${escapeHtml(app.version)} · ${fmtSize(app.size)}</span>
-        </div>
-        ${downloads}
-      </div>
-      <div class="modal-section">
-        <div class="modal-section-head">
-          <span class="modal-section-title">Исходный код</span>
-        </div>
-        <a class="repo-link" href="https://github.com/${escapeHtml(app.repo)}"
-           target="_blank" rel="noopener">
-          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-          </svg>
-          github.com/${escapeHtml(app.repo)}
-        </a>
-      </div>
-      ${app.releaseNotes ? `
-        <div class="modal-section">
-          <div class="modal-section-head">
-            <span class="modal-section-title">Что нового</span>
-            <span class="modal-section-meta">${fmtDate(app.updated)}</span>
-          </div>
-          <div class="notes">${escapeHtml(app.releaseNotes.slice(0, 3000))}</div>
-        </div>` : ''}
-    </div>`;
 
-  const modal = document.getElementById('modal');
-  modal.hidden = false;
-  modal.querySelector('.modal-panel').scrollTop = 0;
-  document.body.style.overflow = 'hidden';
-  document.getElementById('modal-close').focus();
+    <div class="d-stats" role="list">
+      <div class="d-stat" role="listitem"><b>${app.stars ? '★\u00A0' + fmtNum(app.stars) : '—'}</b><span>звёзд</span></div>
+      <div class="d-stat" role="listitem"><b>${fmtSize(app.best.size)}</b><span>размер</span></div>
+      <div class="d-stat" role="listitem"><b>${app.downloads ? fmtNum(app.downloads) : '—'}</b><span>загрузок</span></div>
+      <div class="d-stat" role="listitem"><b title="${escapeHtml(app.version)}">${escapeHtml(app.version) || '—'}</b><span>версия</span></div>
+    </div>
+
+    <div class="d-actions">
+      <a class="btn btn-primary btn-lg" href="${escapeHtml(app.best.url)}" target="_blank" rel="noopener">${installLabel(app)}</a>
+      <a class="btn btn-outline btn-lg" href="https://github.com/${escapeHtml(app.repo)}" target="_blank" rel="noopener">Исходный код</a>
+    </div>
+    <p class="d-file"><span translate="no">${escapeHtml(app.best.name)}</span> · ${fmtSize(app.best.size)}</p>
+
+    ${shots}
+
+    <section class="d-section" aria-labelledby="d-about">
+      <h3 class="d-title" id="d-about">Об этом приложении</h3>
+      <p class="d-text">${escapeHtml(app.description)}</p>
+    </section>
+
+    ${app.releaseNotes ? `
+    <section class="d-section" aria-labelledby="d-new">
+      <h3 class="d-title" id="d-new">Что нового</h3>
+      <p class="notes-meta">${escapeHtml(app.version)} · ${fmtDate(app.updated, true)}</p>
+      <div class="notes" id="notes">${escapeHtml(app.releaseNotes.slice(0, 3000))}</div>
+      <button type="button" class="link-btn" id="notes-toggle" aria-expanded="false" aria-controls="notes" hidden>Показать полностью</button>
+    </section>` : ''}
+
+    <section class="d-section" aria-labelledby="d-files">
+      <h3 class="d-title" id="d-files">Файлы для загрузки</h3>
+      <div class="files">${files}</div>
+    </section>
+
+    <section class="d-section" aria-labelledby="d-info">
+      <h3 class="d-title" id="d-info">Информация</h3>
+      <dl class="info">${info}</dl>
+    </section>`;
 }
 
-function closeModal() {
-  document.getElementById('modal').hidden = true;
-  document.body.style.overflow = '';
+let lastFocus = null;
+
+function openSheet(app) {
+  const sheet = $('sheet');
+  if (sheet.hidden) lastFocus = document.activeElement;
+
+  $('sheet-body').innerHTML = detailHtml(app);
+  sheet.hidden = false;
+  document.documentElement.style.overflow = 'hidden';
+  sheet.scrollTop = 0;
+  document.title = `${app.name} — Apps`;
+
+  const notes = $('notes');
+  if (notes && notes.scrollHeight > notes.clientHeight + 2) $('notes-toggle').hidden = false;
+
+  $('sheet-panel').focus({ preventScroll: true });
+}
+
+function hideSheet() {
+  const sheet = $('sheet');
+  if (sheet.hidden) return;
+  sheet.hidden = true;
+  document.documentElement.style.overflow = '';
+  document.title = 'Apps — каталог приложений';
+  if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
+  lastFocus = null;
+}
+
+function requestClose() {
+  if ($('sheet').hidden) return;
+  if (history.state && history.state.sheet) {
+    history.back();
+  } else {
+    history.replaceState(null, '', location.pathname + location.search);
+    hideSheet();
+  }
+}
+
+function appFromHash() {
+  const m = location.hash.match(/^#\/(.+)$/);
+  if (!m) return null;
+  let id;
+  try { id = decodeURIComponent(m[1]).toLowerCase(); } catch { return null; }
+  return state.apps.find((a) => a.id.toLowerCase() === id) || null;
+}
+
+function syncSheet() {
+  const app = appFromHash();
+  if (app) openSheet(app); else hideSheet();
+}
+
+// ─── События ───
+
+function bindEvents() {
+  let t;
+  $('search').addEventListener('input', (e) => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      state.query = e.target.value.trim();
+      renderHome();
+      renderList();
+      syncUrl();
+    }, 140);
+  });
+
+  $('sort').addEventListener('change', (e) => {
+    state.sort = e.target.value;
+    renderList();
+    syncUrl();
+  });
+
+  $('tabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab');
+    if (!btn) return;
+    state.category = btn.dataset.cat;
+    refresh();
+  });
+
+  document.addEventListener('click', (e) => {
+    const rb = e.target.closest('[data-rail]');
+    if (rb) {
+      const rail = $('rail-' + rb.dataset.rail);
+      if (rail) rail.scrollBy({ left: Number(rb.dataset.dir) * rail.clientWidth * 0.8, behavior: 'smooth' });
+      return;
+    }
+
+    if (e.target.closest('#reset')) { resetFilters(); return; }
+
+    const link = e.target.closest('a[data-app]');
+    if (link) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      const hash = link.getAttribute('href');
+      history.pushState({ sheet: true }, '', location.pathname + location.search + hash);
+      syncSheet();
+      return;
+    }
+
+    if (e.target === $('sheet')) requestClose();
+  });
+
+  $('sheet-close').addEventListener('click', requestClose);
+
+  $('sheet-body').addEventListener('click', (e) => {
+    const b = e.target.closest('#notes-toggle');
+    if (!b) return;
+    const open = $('notes').classList.toggle('open');
+    b.setAttribute('aria-expanded', String(open));
+    b.textContent = open ? 'Свернуть' : 'Показать полностью';
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if ($('sheet').hidden) return;
+    if (e.key === 'Escape') { requestClose(); return; }
+    if (e.key !== 'Tab') return;
+    const f = [...$('sheet-panel').querySelectorAll('a[href], button:not([hidden]), [tabindex]:not([tabindex="-1"])')]
+      .filter((el) => el.offsetParent !== null);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === $('sheet-panel'))) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  });
+
+  window.addEventListener('popstate', syncSheet);
 }
 
 // ─── Init ───
 
 async function init() {
-  let t;
-  document.getElementById('search').addEventListener('input', (e) => {
-    clearTimeout(t);
-    t = setTimeout(() => {
-      state.query = e.target.value.trim();
-      renderList();
-    }, 140);
-  });
+  const p = new URLSearchParams(location.search);
+  state.query = (p.get('q') || '').trim();
+  state.category = p.get('cat') || 'all';
+  const s = p.get('sort');
+  if (['name', 'stars', 'updated', 'downloads'].includes(s)) state.sort = s;
 
-  document.getElementById('sort').addEventListener('change', (e) => {
-    state.sort = e.target.value;
-    renderList();
-  });
-
-  document.getElementById('tabs').addEventListener('click', (e) => {
-    const btn = e.target.closest('.tab');
-    if (!btn) return;
-    state.category = btn.dataset.cat;
-    document.querySelectorAll('.tab')
-      .forEach((b) => b.classList.toggle('active', b === btn));
-    renderList();
-  });
-
-  document.getElementById('modal-close').addEventListener('click', closeModal);
-  document.getElementById('modal').addEventListener('click', (e) => {
-    if (e.target.id === 'modal') closeModal();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !document.getElementById('modal').hidden) closeModal();
-  });
+  $('search').value = state.query;
+  $('sort').value = state.sort;
+  bindEvents();
 
   try {
     state.apps = await loadApps();
-    document.getElementById('loading').hidden = true;
-    renderStats();
-    renderFeatured();
-    renderTabs();
-    renderList();
+    $('loading').hidden = true;
+
+    if (state.category !== 'all' && !state.apps.some((a) => a.category === state.category)) {
+      state.category = 'all';
+    }
+
+    const cats = new Set(state.apps.map((a) => a.category)).size;
+    $('foot-stats').textContent =
+      `${state.apps.length}\u00A0${plural(state.apps.length, 'приложение', 'приложения', 'приложений')} · ${cats}\u00A0${plural(cats, 'категория', 'категории', 'категорий')}`;
+
+    refresh();
+    syncSheet();
   } catch (err) {
-    document.getElementById('loading').innerHTML =
-      `Ошибка загрузки · ${escapeHtml(err.message)}`;
+    $('list').innerHTML = '';
+    $('loading').hidden = true;
+    const empty = $('empty');
+    empty.hidden = false;
+    empty.innerHTML = `
+      <p class="state-title">Не удалось загрузить каталог</p>
+      <p>${escapeHtml(err.message)}. Проверьте подключение и попробуйте ещё раз.</p>
+      <button type="button" class="btn btn-outline" onclick="location.reload()">Повторить</button>`;
   }
 }
 
