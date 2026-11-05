@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apps — GitHub Releases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-2: #f4f4f4;
+  --border: #ececec;
+  --border-2: #e0e0e0;
+  --border-3: #c9c9c9;
+  --text: #0a0a0a;
+  --text-2: #525252;
+  --text-3: #8f8f8f;
+  --text-4: #b5b5b5;
+  --accent: #0a0a0a;
+  --accent-hover: #262626;
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --radius-l: 14px;
+  --font: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv01", "tnum";
+  font-variant-numeric: tabular-nums;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════
+   TOPBAR
+   ═══════════════════════════════════════ */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 250, 250, 0.86);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 60px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.brand-name { font-weight: 600; }
+
+.search-wrap {
+  flex: 1;
+  max-width: 360px;
+  position: relative;
+}
+
+.search-wrap svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-3);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  height: 34px;
+  padding: 0 12px 0 34px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.search-input:focus {
+  border-color: var(--text);
+  background: #fff;
+}
+
+.search-input::placeholder { color: var(--text-3); }
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.topbar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-s);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  transition: color 0.15s, background 0.15s;
+}
+
+.topbar-link:hover { color: var(--text); background: var(--surface-2); }
+
+/* ═══════════════════════════════════════
+   MAIN
+   ═══════════════════════════════════════ */
+
+.main {
+  flex: 1;
+  padding: 56px 0 80px;
+}
+
+/* ─── Hero ─── */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 56px;
+}
+
+.hero-title {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-2);
+  max-width: 460px;
+  line-height: 1.55;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-v {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.stat-l {
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: -0.005em;
+}
+
+/* ─── Section head ─── */
+
+.section {
+  margin-bottom: 56px;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.section-meta {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.section-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sort-select {
+  height: 30px;
+  padding: 0 28px 0 12px;
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none' stroke='%238f8f8f' stroke-width='1.5'%3E%3Cpath d='M2 4l3 3 3-3'/%3E%3C/svg%3E") no-repeat right 10px center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.15s;
+}
+
+.sort-select:hover { border-color: var(--border-3); }
+
+/* ─── Featured ─── */
+
+.featured-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 24px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  padding: 24px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.featured-card:hover { border-color: var(--border-2); }
+
+.featured-icon {
+  width: 88px;
+  height: 88px;
+  border-radius: 20px;
+  object-fit: cover;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.featured-icon-fallback {
+  width: 88px;
+  height: 88px;
+  border-radius: 20px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.featured-info { min-width: 0; }
+
+.featured-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+.featured-label::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.featured-name {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+
+.featured-desc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 560px;
+}
+
+.featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+  flex-wrap: wrap;
+}
+
+.featured-meta .sep { color: var(--text-4); }
+
+.featured-meta .version {
+  color: var(--text);
+  font-weight: 500;
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 1px 6px;
+  background: var(--surface-2);
+  border-radius: 4px;
+}
+
+.featured-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.featured-stats {
+  font-size: 11px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* ─── Button ─── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn:hover { background: var(--accent-hover); }
+.btn-sm { height: 30px; padding: 0 14px; font-size: 12px; }
+
+/* ─── Tabs ─── */
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 16px;
+  margin-bottom: 8px;
+}
+
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  height: 30px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.tab:hover { color: var(--text); border-color: var(--border-2); }
+
+.tab.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.tab-count {
+  font-size: 11px;
+  color: var(--text-4);
+  font-family: var(--mono);
+  letter-spacing: 0.01em;
+}
+
+.tab.active .tab-count { color: rgba(255, 255, 255, 0.55); }
+
+/* ─── App list ─── */
+
+.list { display: flex; flex-direction: column; }
+
+.app-row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 16px;
+  margin: 0 -16px;
+  border-radius: var(--radius-m);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.app-row:last-child { border-bottom: none; }
+.app-row:hover { background: var(--surface); }
+.app-row:hover .app-name { color: var(--accent); }
+
+.app-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  object-fit: cover;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.app-icon-fallback {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.app-body { min-width: 0; }
+
+.app-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.app-name {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.12s;
+}
+
+.app-version {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-3);
+  padding: 1px 6px;
+  background: var(--surface-2);
+  border-radius: 4px;
+  flex-shrink: 0;
+  line-height: 1.6;
+}
+
+.app-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-3);
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.app-meta-row .sep { color: var(--text-4); }
+
+.app-meta-row .cat {
+  color: var(--text-2);
+  font-weight: 500;
+}
+
+.app-desc {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.app-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.app-stats {
+  font-size: 11px;
+  color: var(--text-3);
+  white-space: nowrap;
+  font-family: var(--mono);
+  letter-spacing: 0.005em;
+}
+
+.app-stats .sep { color: var(--text-4); margin: 0 2px; }
+
+/* ─── States ─── */
+
+.state {
+  padding: 64px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--border-2);
+  border-top-color: var(--text-2);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 8px;
+  vertical-align: -2px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════ */
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-3);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-inner a { color: var(--text-2); }
+.footer-inner a:hover { color: var(--text); }
+
+/* ═══════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(10, 10, 10, 0.32);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 24px;
+  overflow-y: auto;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-panel {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-l);
+  max-width: 680px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+  animation: slideUp 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: all 0.15s;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: var(--surface-2);
+  color: var(--text);
+  border-color: var(--border-2);
+}
+
+.modal-header {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 18px;
+  padding: 28px 28px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  object-fit: cover;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.modal-icon-fallback {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+.modal-info { min-width: 0; padding-top: 4px; }
+
+.modal-name {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modal-by {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+.modal-by .sep { margin: 0 4px; }
+
+.modal-desc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.modal-body { padding: 20px 28px 28px; }
+
+.modal-section { margin-bottom: 24px; }
+.modal-section:last-child { margin-bottom: 0; }
+
+.modal-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.005em;
+}
+
+.modal-section-meta {
+  font-size: 11px;
+  color: var(--text-3);
+  font-family: var(--mono);
+}
+
+.download-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 11px 12px;
+  margin: 0 -12px;
+  border-radius: var(--radius-s);
+  transition: background 0.12s;
+  cursor: pointer;
+}
+
+.download-item:hover { background: var(--surface-2); }
+
+.download-name {
+  font-size: 13px;
+  font-family: var(--mono);
+  color: var(--text);
+  letter-spacing: -0.005em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.download-size {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.download-count {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text-3);
+  white-space: nowrap;
+  min-width: 56px;
+  text-align: right;
+}
+
+.repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  margin: 0 -12px;
+  border-radius: var(--radius-s);
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--text-2);
+  transition: all 0.15s;
+}
+
+.repo-link:hover { background: var(--surface-2); color: var(--text); }
+
+.repo-link svg { color: var(--text-3); }
+
+.notes {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.notes::-webkit-scrollbar { width: 6px; }
+.notes::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 3px; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: 24px; }
+  .hero-stats { padding-top: 24px; border-top: 1px solid var(--border); }
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 16px; }
+  .topbar-inner { height: 56px; gap: 12px; }
+  .search-wrap { max-width: none; }
+  .brand-name { display: none; }
+  .topbar-nav .topbar-link span { display: none; }
+
+  .main { padding: 32px 0 56px; }
+  .hero-title { font-size: 30px; }
+  .hero-sub { font-size: 14px; }
+
+  .featured-card {
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    padding: 18px;
+  }
+  .featured-action {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .featured-icon, .featured-icon-fallback {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+  }
+  .featured-name { font-size: 18px; }
+  .featured-desc { -webkit-line-clamp: 2; }
+
+  .app-row {
+    grid-template-columns: 52px 1fr;
+    gap: 12px;
+    padding: 14px 12px;
+    margin: 0 -12px;
+  }
+  .app-icon, .app-icon-fallback {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+  }
+  .app-action {
+    grid-column: 2;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .app-stats { display: none; }
+  .app-desc { -webkit-line-clamp: 2; }
+
+  .modal { padding: 0; align-items: stretch; }
+  .modal-panel {
+    border-radius: 0;
+    min-height: 100vh;
+    border: none;
+    box-shadow: none;
+  }
+  .modal-header { padding: 20px; grid-template-columns: 60px 1fr; gap: 14px; }
+  .modal-icon, .modal-icon-fallback { width: 60px; height: 60px; border-radius: 14px; }
+  .modal-name { font-size: 19px; }
+  .modal-body { padding: 16px 20px 24px; }
+  .modal-close { top: 12px; right: 12px; }
+  .download-item { grid-template-columns: 1fr auto; }
+  .download-count { display: none; }
+
+  .footer-inner { justify-content: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="./">
+      <span class="brand-icon">A</span>
+      <span class="brand-name">Apps</span>
+    </a>
+
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="6" cy="6" r="4"/>
+        <path d="M9 9l3 3"/>
+      </svg>
+      <input type="search" id="search" class="search-input" placeholder="Поиск приложений" aria-label="Поиск">
+    </div>
+
+    <nav class="topbar-nav">
+      <a class="topbar-link" href="https://github.com" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <div class="wrap">
+
+    <section class="hero">
+      <div>
+        <h1 class="hero-title">Каталог приложений</h1>
+        <p class="hero-sub">Прямые релизы с GitHub. Без рекламы, без алгоритмов, без посредников между вами и разработчиком.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-v" id="stat-total">—</span>
+          <span class="stat-l">приложений</span>
+        </div>
+        <div class="stat">
+          <span class="stat-v" id="stat-cats">—</span>
+          <span class="stat-l">категорий</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="featured-section" hidden>
+      <div class="section-head">
+        <h2 class="section-title">Featured</h2>
+        <span class="section-meta">Выбор редакции</span>
+      </div>
+      <div id="featured-container"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title">Все приложения</h2>
+        <div class="section-controls">
+          <span class="section-meta" id="catalog-count">—</span>
+          <select class="sort-select" id="sort" aria-label="Сортировка">
+            <option value="name">По названию</option>
+            <option value="stars">По звёздам</option>
+            <option value="updated">По обновлению</option>
+            <option value="downloads">По загрузкам</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="tabs" id="tabs"></div>
+      <div class="list" id="list"></div>
+
+      <div class="state" id="loading">
+        <span class="spinner"></span>Загрузка каталога
+      </div>
+      <div class="state" id="empty" hidden>Ничего не найдено</div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>Apps · 2026</span>
+    <span>Работает на <a href="https://github.com" target="_blank" rel="noopener">GitHub Releases</a></span>
+  </div>
+</footer>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" id="modal-close" aria-label="Закрыть">
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M2 2L12 12M12 2L2 12"/>
+      </svg>
+    </button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ═════════════════════════════════════════════════════════════
+// App Store — GitHub Releases
+// ═════════════════════════════════════════════════════════════
+
+const CONFIG = {
+  configUrl: 'apps.json',
+  token: null,
+  fallback: [],
+};
+
+const state = {
+  apps: [],
+  category: 'all',
+  query: '',
+  sort: 'name',
+};
+
+// ─── Утилиты ───
+
+const fmtNum = (n) => {
+  n = n || 0;
+  if (n >= 1e6) return (n / 1e6).toFixed(1).replace('.0', '') + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1).replace('.0', '') + 'K';
+  return String(n);
+};
+
+const fmtSize = (b) => {
+  if (!b) return '—';
+  const u = ['B', 'KB', 'MB', 'GB'];
+  let i = 0, n = b;
+  while (n >= 1024 && i < u.length - 1) { n /= 1024; i++; }
+  return n.toFixed(n < 10 ? 1 : 0) + ' ' + u[i];
+};
+
+const MONTHS = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+
+const fmtDate = (iso) => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+};
+
+const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+}[c]));
+
+const isInstallable = (name) =>
+  /\.(apk|aab|ipa|exe|msi|dmg|pkg|deb|rpm|appimage|zip|tar\.gz)$/i.test(name);
+
+const plural = (n, one, few, many) => {
+  const mod10 = n % 10, mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+  return many;
+};
+
+// ─── Icon ───
+
+const iconSrc = (app) => app.icon || `https://avatars.githubusercontent.com/${app.owner}?size=128`;
+
+const renderIcon = (app, cls) => {
+  const letter = escapeHtml((app.name[0] || '?').toUpperCase());
+  const src = escapeHtml(iconSrc(app));
+  return `<img class="${cls}" src="${src}" alt="" loading="lazy"
+    onerror="this.outerHTML='<div class=\\'${cls}-fallback\\'>${letter}</div>'">`;
+};
+
+// ─── GitHub API ───
+
+async function ghFetch(path) {
+  const headers = { Accept: 'application/vnd.github+json' };
+  if (CONFIG.token) headers.Authorization = `Bearer ${CONFIG.token}`;
+  const res = await fetch(`https://api.github.com${path}`, { headers });
+  if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+  return res.json();
+}
+
+async function loadApp(entry) {
+  const { repo, category = 'Прочее', featured = false, description, icon } = entry;
+  try {
+    const [info, release] = await Promise.all([
+      ghFetch(`/repos/${repo}`),
+      ghFetch(`/repos/${repo}/releases/latest`).catch(() => null),
+    ]);
+    if (!release) return null;
+
+    const assets = (release.assets || [])
+      .filter((a) => isInstallable(a.name))
+      .map((a) => ({
+        name: a.name,
+        size: a.size,
+        url: a.browser_download_url,
+        downloads: a.download_count || 0,
+      }));
+    if (!assets.length) return null;
+
+    const downloads = assets.reduce((s, a) => s + a.downloads, 0);
+    const size = assets.reduce((m, a) => Math.max(m, a.size), 0);
+
+    return {
+      id: repo,
+      repo,
+      name: info.name,
+      owner: info.owner?.login || repo.split('/')[0],
+      description: description || info.description || 'Без описания',
+      category,
+      featured,
+      icon: icon || null,
+      stars: info.stargazers_count || 0,
+      updated: release.published_at || info.updated_at,
+      version: release.tag_name || release.name || '',
+      releaseNotes: release.body || '',
+      assets,
+      downloads,
+      size,
+    };
+  } catch (err) {
+    console.warn(`skip ${repo}:`, err.message);
+    return null;
+  }
+}
+
+async function loadApps() {
+  let entries = [];
+  try {
+    const res = await fetch(CONFIG.configUrl, { cache: 'no-cache' });
+    if (res.ok) {
+      const json = await res.json();
+      entries = Array.isArray(json) ? json : (json.apps || []);
+    }
+  } catch {}
+  if (!entries.length) entries = CONFIG.fallback;
+  const results = await Promise.all(entries.map(loadApp));
+  return results.filter(Boolean);
+}
+
+// ─── Hero stats ───
+
+function renderStats() {
+  document.getElementById('stat-total').textContent = state.apps.length;
+  document.getElementById('stat-cats').textContent =
+    new Set(state.apps.map((a) => a.category)).size;
+}
+
+// ─── Featured ───
+
+function renderFeatured() {
+  const section = document.getElementById('featured-section');
+  const featured = state.apps.filter((a) => a.featured);
+  if (!featured.length) { section.hidden = true; return; }
+  section.hidden = false;
+
+  const app = featured[0];
+  const container = document.getElementById('featured-container');
+
+  container.innerHTML = `
+    <div class="featured-card" data-id="${escapeHtml(app.id)}">
+      ${renderIcon(app, 'featured-icon')}
+      <div class="featured-info">
+        <div class="featured-label">Выбор редакции</div>
+        <h3 class="featured-name">${escapeHtml(app.name)}</h3>
+        <p class="featured-desc">${escapeHtml(app.description)}</p>
+        <div class="featured-meta">
+          <span class="version">${escapeHtml(app.version)}</span>
+          <span class="sep">·</span>
+          <span>${fmtSize(app.size)}</span>
+          <span class="sep">·</span>
+          <span>${escapeHtml(app.category)}</span>
+          <span class="sep">·</span>
+          <span>${fmtDate(app.updated)}</span>
+        </div>
+      </div>
+      <div class="featured-action">
+        <a class="btn" href="${escapeHtml(app.assets[0].url)}" target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">Скачать</a>
+        <span class="featured-stats">${app.downloads ? fmtNum(app.downloads) + ' загрузок' : '—'}</span>
+      </div>
+    </div>`;
+
+  container.querySelector('.featured-card')
+    .addEventListener('click', () => openModal(app.id));
+}
+
+// ─── Tabs ───
+
+function renderTabs() {
+  const counts = {};
+  state.apps.forEach((a) => { counts[a.category] = (counts[a.category] || 0) + 1; });
+  const cats = Object.keys(counts).sort();
+  const items = [['all', 'Все', state.apps.length], ...cats.map((c) => [c, c, counts[c]])];
+
+  document.getElementById('tabs').innerHTML = items.map(([val, label, count]) =>
+    `<button class="tab ${state.category === val ? 'active' : ''}" data-cat="${escapeHtml(val)}">
+      ${escapeHtml(label)}<span class="tab-count">${count}</span>
+    </button>`).join('');
+}
+
+// ─── Список ───
+
+function getVisible() {
+  let list = state.apps;
+  if (state.category !== 'all') list = list.filter((a) => a.category === state.category);
+  if (state.query) {
+    const q = state.query.toLowerCase();
+    list = list.filter((a) =>
+      a.name.toLowerCase().includes(q) ||
+      a.description.toLowerCase().includes(q) ||
+      a.owner.toLowerCase().includes(q));
+  }
+  const sorted = [...list];
+  if (state.sort === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name));
+  else if (state.sort === 'stars') sorted.sort((a, b) => b.stars - a.stars);
+  else if (state.sort === 'updated') sorted.sort((a, b) => new Date(b.updated) - new Date(a.updated));
+  else if (state.sort === 'downloads') sorted.sort((a, b) => b.downloads - a.downloads);
+  return sorted;
+}
+
+function renderList() {
+  const listEl = document.getElementById('list');
+  const empty = document.getElementById('empty');
+  const apps = getVisible();
+
+  document.getElementById('catalog-count').textContent =
+    `${apps.length} ${plural(apps.length, 'приложение', 'приложения', 'приложений')}`;
+
+  if (!apps.length) {
+    listEl.innerHTML = '';
+    empty.hidden = false;
+    return;
+  }
+  empty.hidden = true;
+
+  listEl.innerHTML = apps.map((app) => `
+    <div class="app-row" data-id="${escapeHtml(app.id)}" tabindex="0">
+      ${renderIcon(app, 'app-icon')}
+      <div class="app-body">
+        <div class="app-title-row">
+          <span class="app-name">${escapeHtml(app.name)}</span>
+          <span class="app-version">${escapeHtml(app.version)}</span>
+        </div>
+        <div class="app-meta-row">
+          <span>${escapeHtml(app.owner)}</span>
+          <span class="sep">·</span>
+          <span class="cat">${escapeHtml(app.category)}</span>
+          <span class="sep">·</span>
+          <span>${fmtSize(app.size)}</span>
+          <span class="sep">·</span>
+          <span>${fmtDate(app.updated)}</span>
+        </div>
+        <p class="app-desc">${escapeHtml(app.description)}</p>
+      </div>
+      <div class="app-action">
+        <a class="btn btn-sm" href="${escapeHtml(app.assets[0].url)}"
+           target="_blank" rel="noopener"
+           onclick="event.stopPropagation()">Скачать</a>
+        <span class="app-stats">
+          ${app.stars ? '★ ' + fmtNum(app.stars) : '—'}
+          ${app.downloads ? '<span class="sep">·</span>' + fmtNum(app.downloads) + ' загрузок' : ''}
+        </span>
+      </div>
+    </div>`).join('');
+
+  listEl.querySelectorAll('.app-row').forEach((row) => {
+    row.addEventListener('click', () => openModal(row.dataset.id));
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(row.dataset.id);
+      }
+    });
+  });
+}
+
+// ─── Modal ───
+
+function openModal(id) {
+  const app = state.apps.find((a) => a.id === id);
+  if (!app) return;
+
+  const downloads = app.assets.map((a) => `
+    <a class="download-item" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">
+      <span class="download-name">${escapeHtml(a.name)}</span>
+      <span class="download-size">${fmtSize(a.size)}</span>
+      <span class="download-count">${fmtNum(a.downloads)} ↓</span>
+    </a>`).join('');
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-header">
+      ${renderIcon(app, 'modal-icon')}
+      <div class="modal-info">
+        <h2 class="modal-name">${escapeHtml(app.name)}</h2>
+        <div class="modal-by">
+          ${escapeHtml(app.owner)}
+          <span class="sep">·</span>
+          ${escapeHtml(app.category)}
+          <span class="sep">·</span>
+          ${app.stars ? '★ ' + fmtNum(app.stars) : '—'}
+        </div>
+        <p class="modal-desc">${escapeHtml(app.description)}</p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-head">
+          <span class="modal-section-title">Загрузки</span>
+          <span class="modal-section-meta">${escapeHtml(app.version)} · ${fmtSize(app.size)}</span>
+        </div>
+        ${downloads}
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-head">
+          <span class="modal-section-title">Исходный код</span>
+        </div>
+        <a class="repo-link" href="https://github.com/${escapeHtml(app.repo)}"
+           target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          github.com/${escapeHtml(app.repo)}
+        </a>
+      </div>
+      ${app.releaseNotes ? `
+        <div class="modal-section">
+          <div class="modal-section-head">
+            <span class="modal-section-title">Что нового</span>
+            <span class="modal-section-meta">${fmtDate(app.updated)}</span>
+          </div>
+          <div class="notes">${escapeHtml(app.releaseNotes.slice(0, 3000))}</div>
+        </div>` : ''}
+    </div>`;
+
+  const modal = document.getElementById('modal');
+  modal.hidden = false;
+  modal.querySelector('.modal-panel').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal-close').focus();
+}
+
+function closeModal() {
+  document.getElementById('modal').hidden = true;
+  document.body.style.overflow = '';
+}
+
+// ─── Init ───
+
+async function init() {
+  let t;
+  document.getElementById('search').addEventListener('input', (e) => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      state.query = e.target.value.trim();
+      renderList();
+    }, 140);
+  });
+
+  document.getElementById('sort').addEventListener('change', (e) => {
+    state.sort = e.target.value;
+    renderList();
+  });
+
+  document.getElementById('tabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab');
+    if (!btn) return;
+    state.category = btn.dataset.cat;
+    document.querySelectorAll('.tab')
+      .forEach((b) => b.classList.toggle('active', b === btn));
+    renderList();
+  });
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', (e) => {
+    if (e.target.id === 'modal') closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !document.getElementById('modal').hidden) closeModal();
+  });
+
+  try {
+    state.apps = await loadApps();
+    document.getElementById('loading').hidden = true;
+    renderStats();
+    renderFeatured();
+    renderTabs();
+    renderList();
+  } catch (err) {
+    document.getElementById('loading').innerHTML =
+      `Ошибка загрузки · ${escapeHtml(err.message)}`;
+  }
+}
+
+init();
+</script>
+</body>
+</html>

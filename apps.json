@@ -1,0 +1,26 @@
+{
+  "apps": [
+    {
+      "repo": "bitwarden/android",
+      "category": "Безопасность",
+      "featured": true
+    },
+    {
+      "repo": "Kunzisoft/KeePassDX",
+      "category": "Безопасность"
+    },
+    {
+      "repo": "organicmaps/organicmaps",
+      "category": "Навигация",
+      "featured": true
+    },
+    {
+      "repo": "signalapp/Signal-Android",
+      "category": "Общение"
+    },
+    {
+      "repo": "NeoApplications/Neo-Store",
+      "category": "Утилиты"
+    }
+  ]
+}
